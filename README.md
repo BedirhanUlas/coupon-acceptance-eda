@@ -1,42 +1,89 @@
+# Coupon Acceptance Analysis — Consumer Behavior EDA
 
-# Will the Customer Accept the Coupon?
+Exploratory data analysis of driving coupon acceptance behavior using survey data from Amazon Mechanical Turk. Identifies the demographic and contextual factors that predict whether a driver will accept a coupon delivered to their mobile device.
 
-## 🎯 Objective
-The purpose of this project is to analyze behavioral patterns in accepting driving-related coupons based on various contextual and demographic factors. The goal is to identify characteristics that influence a customer's likelihood to accept a coupon, using visualizations and exploratory data analysis.
+## Business Problem
 
-## 📦 Dataset
-- **Source**: UCI Machine Learning Repository
-- **Data Collection**: Conducted through Amazon Mechanical Turk
-- **Features**: 
-  - Contextual (weather, time, destination, passenger)
-  - Demographic (age, income, occupation, education)
-  - Coupon types (bar, restaurant, coffee house, etc.)
-  - Target variable: `Y` (1 = accepted, 0 = rejected)
+Targeted coupon delivery is only valuable if the coupon is actually used. Understanding which customer segments accept coupons — and under what circumstances — allows businesses to:
+- Reduce wasted coupon distribution to unlikely acceptors
+- Personalize offers based on customer profile and context
+- Increase redemption rates and ROI on promotional spend
 
-## 🛠️ Tools & Libraries
-- Python 3
-- Pandas
-- Matplotlib
-- Seaborn
-- Jupyter Notebook
+## Dataset
 
-## 📊 Project Highlights
-- Performed missing value analysis and imputation using mode for categorical features.
-- Visualized distributions of target and feature variables.
-- Focused on **bar coupons** to investigate patterns of acceptance:
-  - Drivers under age 30 and those who frequent bars were more likely to accept.
-  - Marital status and presence of kids affected acceptance rate.
-- Conducted independent investigation on **coffee house coupons**, revealing similar behavioral patterns among specific demographic groups.
+| Attribute | Value |
+|---|---|
+| Source | UCI Machine Learning Repository (via Amazon Mechanical Turk) |
+| Records | 12,684 survey responses |
+| Features | 25 (demographic, behavioral, contextual) |
+| Target | Binary — accepted coupon (Y/N) |
+| Overall acceptance rate | ~56.8% |
 
-## 📈 Key Insights
-- Drivers who frequently visit bars or coffee houses are more likely to accept coupons related to those venues.
-- Younger drivers and those not accompanied by children tend to accept offers more.
-- Income and occupation also show correlation with coupon acceptance in certain categories.
+Features include: destination, passenger type, weather, temperature, time of day, coupon type, expiration, age, income, marital status, children, education, occupation, visit frequency.
 
-## 📁 Repository Contents
-- `notebook.ipynb`: Full analysis in Jupyter Notebook format
-- `coupons.csv`: Dataset used
-- `README.md`: Project overview and documentation
+## Key Findings
 
-## ✅ Status
-This project was developed as part of the UC Berkeley Machine Learning Certificate program — Assignment 5.1: “Will the Customer Accept the Coupon?”
+### Who Accepts Coupons?
+
+| Segment | Acceptance Rate | vs. Average |
+|---|---|---|
+| Age under 30 | ~65% | +8 pts |
+| Frequent bar visitors (3+ times/month) | ~77% | +20 pts |
+| Coffee house regulars | ~67% | +10 pts |
+| Drivers without children | ~59% | +2 pts |
+| Drivers with passengers (friends/partner) | ~61% | +4 pts |
+
+### When Are Coupons Accepted?
+
+- **Time of day:** Midday (10am–2pm) shows highest acceptance rates
+- **Weather:** Sunny conditions correlate with higher acceptance vs. rainy/snowy
+- **Destination:** No urgent destination → significantly higher acceptance
+- **Expiration:** 1-day coupons outperform 2-hour coupons in most segments
+
+### Coupon Type Breakdown
+
+- **Coffee House:** Highest volume + moderate acceptance (~50%)
+- **Carry Away / Cheap Restaurants:** Highest acceptance rates (~70%+)
+- **Bars:** High acceptance among frequent visitors, low among infrequent ones
+- **Expensive Restaurants:** Lowest overall acceptance (~45%)
+
+## Analytical Approach
+
+1. **Data Quality** — Identified and handled missing values (car column: 99% missing → dropped; Bar/CoffeeHouse/etc.: imputed with mode)
+2. **Univariate Analysis** — Distribution of each feature, acceptance rate by category
+3. **Bivariate Analysis** — Cross-tabulation of demographics vs. acceptance
+4. **Segmentation** — Behavioral segmentation (bar frequency, coffee house frequency) crossed with demographics
+5. **Visualization** — Heatmaps, bar charts, proportion plots for all key comparisons
+
+## Project Structure
+
+```
+coupon-acceptance-eda/
+├── Coupon_Acceptance.ipynb    # Full analysis notebook
+└── data/
+    └── coupons.csv            # Survey dataset
+```
+
+## Quick Start
+
+```bash
+git clone https://github.com/BedirhanUlas/coupon-acceptance-eda.git
+cd coupon-acceptance-eda
+pip install pandas numpy matplotlib seaborn jupyter
+jupyter notebook Coupon_Acceptance.ipynb
+```
+
+## Tech Stack
+
+`Python` · `pandas` · `NumPy` · `Matplotlib` · `Seaborn`
+
+## Business Recommendations
+
+1. **Bar coupons:** Target drivers who visit bars 3+ times/month and are over 25 — acceptance rate nearly doubles vs. infrequent visitors
+2. **Coffee house coupons:** High potential for young professionals (under 30) traveling alone to work
+3. **Avoid:** Sending expensive restaurant coupons to families with children — lowest acceptance segment
+4. **Timing:** Schedule delivery for midday rather than morning rush or late evening
+
+## License
+
+MIT
